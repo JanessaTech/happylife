@@ -47,4 +47,15 @@ public class UserFilter {
     public void setOrder(String order) {
         this.order = order;
     }
+
+    @Override
+    public String toString() {
+        return "UserFilter{" +
+                "userIds='" + userIds + '\'' +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", sortby='" + sortby + '\'' +
+                ", order='" + order + '\'' +
+                '}';
+    }
 }

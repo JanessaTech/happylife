@@ -12,4 +12,5 @@ public interface UserService {
     void createUser(User user);
     User updateUser(User user);
     void deleteUserById(UUID userId);
+    void deleteUsersByIds(List<UUID> uuids);
 }
