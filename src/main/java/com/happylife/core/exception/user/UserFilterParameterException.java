@@ -9,4 +9,7 @@ public class UserFilterParameterException extends Exception{
     public UserFilterParameterException(String msg){
         super(msg);
     }
+    public UserFilterParameterException(String msg, Throwable throwable){
+        super(msg, throwable);
+    }
 }

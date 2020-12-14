@@ -13,4 +13,9 @@ public class UserControllerExceptionHandler {
         Response response = Response.fail(ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(value = UserException.class)
+    public ResponseEntity<Object> exception(UserException ex){
+        Response response = Response.fail(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }

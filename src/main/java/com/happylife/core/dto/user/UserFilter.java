@@ -16,10 +16,11 @@ public class UserFilter {
     private String sortby;
     private String order;
 
-    @Autowired
     private MessageSource messageSource;
 
-    public UserFilter(){}
+    public UserFilter(MessageSource messageSource){
+        this.messageSource = messageSource;
+    }
 
     public String getUserIds() {
         return userIds;
@@ -109,7 +110,7 @@ public class UserFilter {
         validateSex();
         validateSortby();
         validateOrder();
-        if(invalidFields.size() > 1){
+        if(invalidFields.size() > 0){
             throw new UserFilterParameterException(this.messageSource.getMessage("user.filter.validation", new Object[]{invalidFields.toString(), reasons.toString()}, Locale.getDefault()));
         }
     }
