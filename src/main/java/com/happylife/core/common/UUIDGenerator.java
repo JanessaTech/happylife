@@ -1,19 +1,28 @@
 package com.happylife.core.common;
 
+import com.happylife.core.exception.uuid.UUIDException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
  * Generator UUID
  * @author Juan Zhao
  */
+@Component
 public class UUIDGenerator {
+    @Autowired
+    private MessageSource messageSource;
     /**
      * Generator one random UUID
      * @return
      */
-    public static UUID getUUID(){
+    public  UUID getUUID(){
         UUID uuid = UUID.randomUUID();
         return uuid;
     }
@@ -23,8 +32,14 @@ public class UUIDGenerator {
      * @param id
      * @return
      */
-    public static UUID getUUID(String id){
-        return UUID.fromString(id);
+    public  UUID getUUID(String id) throws IllegalArgumentException{
+        UUID uuid = null;
+        try{
+            uuid = UUID.fromString(id);
+        }catch(IllegalArgumentException ex){
+            throw new IllegalArgumentException(this.messageSource.getMessage("uuid.invalid", new Object[]{id}, Locale.getDefault()));
+        }
+        return uuid;
     }
 
     /**
@@ -33,11 +48,15 @@ public class UUIDGenerator {
      * @param ids
      * @return
      */
-    public static List<Object> getUUIDs(String ids){
+    public  List<Object> getUUIDs(String ids) throws UUIDException{
         String[] ids_arr = ids.split(",");
         List<Object> uuids = new ArrayList<Object>();
         for(String id : ids_arr){
-            uuids.add(UUID.fromString(id));
+            try{
+                uuids.add(UUID.fromString(id));
+            }catch (IllegalArgumentException ex){
+                throw new UUIDException(this.messageSource.getMessage("uuid.multiple.invalid", new Object[]{ids, id}, Locale.getDefault()));
+            }
         }
         return uuids;
     }
@@ -46,12 +65,24 @@ public class UUIDGenerator {
      * @param number How many UUIDs to be generated
      * @return
      */
-    public static List<UUID> getUUIDs(int number){
+    public  List<UUID> getUUIDs(int number){
         List uuids = new ArrayList<UUID>();
         while(number > 0){
             uuids.add(UUID.randomUUID());
             number--;
         }
         return uuids;
+    }
+
+    public void validate(String uuidStr, String field, String module) throws UUIDException {
+        if(uuidStr == null || uuidStr.trim().equals("")){
+            throw new UUIDException(this.messageSource.getMessage("uuid.empty", new Object[]{field, module}, Locale.getDefault()));
+        }
+        UUID uuid = null;
+        try{
+            uuid = getUUID(uuidStr);
+        }catch(IllegalArgumentException ex){
+            throw new UUIDException(ex.getMessage());
+        }
     }
 }
