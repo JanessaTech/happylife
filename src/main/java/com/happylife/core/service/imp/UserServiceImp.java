@@ -34,20 +34,13 @@ public class UserServiceImp implements UserService {
         return userMapper.selectByPrimaryKey(userId);
     }
 
-    private List<Object> convertType2Obj(List<UUID> uuids){
-        List<Object> uuidObjs = new ArrayList<>();
-        uuidObjs.addAll(uuids);
-        return uuidObjs;
-    }
-
     @Override
     public List<User> getUsersByFilter(UserFilter userFilter) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         if(!userFilter.getUserIds().equals("") ){
-            List<UUID> uuids = UUIDGenerator.getUUIDs(userFilter.getUserIds());
-            List<Object> uuidObjs = convertType2Obj(uuids);
-            criteria.andUserIdIn(uuidObjs);
+            List<Object> uuids = UUIDGenerator.getUUIDs(userFilter.getUserIds());
+            criteria.andUserIdIn(uuids);
         }
         if(!userFilter.getName().equals("")){
             criteria.andNameEqualTo(userFilter.getName());
@@ -81,10 +74,9 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void deleteUsersByIds(List<UUID> uuids) {
+    public void deleteUsersByIds(List<Object> uuids) {
         UserExample userExample = new UserExample();
-        List<Object> uuidObjs = convertType2Obj(uuids);
-        userExample.createCriteria().andUserIdIn(uuidObjs);
+        userExample.createCriteria().andUserIdIn(uuids);
         this.userMapper.deleteByExample(userExample);
     }
 }

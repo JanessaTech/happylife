@@ -33,9 +33,9 @@ public class UUIDGenerator {
      * @param ids
      * @return
      */
-    public static List<UUID> getUUIDs(String ids){
+    public static List<Object> getUUIDs(String ids){
         String[] ids_arr = ids.split(",");
-        List<UUID> uuids = new ArrayList<UUID>();
+        List<Object> uuids = new ArrayList<Object>();
         for(String id : ids_arr){
             uuids.add(UUID.fromString(id));
         }
