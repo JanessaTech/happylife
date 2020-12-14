@@ -46,7 +46,7 @@ public class UserController {
                                                    @RequestParam(value = "name", required = false, defaultValue = "") String name,
                                                    @RequestParam(value = "sex", required = false, defaultValue = "") String sex,
                                                    @RequestParam(value = "sortby", required = false, defaultValue = "") String sortby,
-                                                   @RequestParam(value = "order", required = false, defaultValue = "") String order) throws UserFilterParameterException, UUIDException, UserException {
+                                                   @RequestParam(value = "order", required = false, defaultValue = "") String order) throws UserFilterParameterException, UserException {
         UserFilter userFilter = new UserFilter(this.messageSource);
         userFilter.setUserIds(userIds);
         userFilter.setName(name);
@@ -96,8 +96,8 @@ public class UserController {
             logger.info(this.messageSource.getMessage("user.delete.res", new Object[]{res}, Locale.getDefault()));
             logger.info(this.messageSource.getMessage("user.delete.ids", new Object[]{userIds}, Locale.getDefault()));
         }catch(Exception ex){
+            logger.error(ex.getMessage(), ex);
             throw new UserException(ex.getMessage());
-
         }
 
         Response response = Response.success();
@@ -148,7 +148,7 @@ public class UserController {
     @PutMapping
     public ResponseEntity<Object> updateUser(@RequestBody User user) throws EntityNotFoundException, UUIDException, UserException {
         uuidGenerator.validate(user.getUserId() == null? null : user.getUserId().toString(), "userId", "User");
-        UUID uuid = uuidGenerator.getUUID();
+        UUID uuid = uuidGenerator.getUUID(user.getUserId().toString());
         user.setUserId(uuid);
         checkUser(uuid);
         try{

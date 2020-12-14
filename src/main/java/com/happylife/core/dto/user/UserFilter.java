@@ -63,24 +63,26 @@ public class UserFilter {
     }
 
     private void validateUserIds(){
-        String[] idArr = this.userIds.split(",");
-        boolean isValid = true;
-        StringBuffer reason = new StringBuffer();
-        reason.append("for userIds, invalid ids are:");
-        for(String id : idArr){
-            try{
-                UUID.fromString(id);
-            }catch (IllegalArgumentException ex){
-                isValid = false;
-                if(!invalidFields.contains("userIds")){
-                    invalidFields.add("userIds");
+        if(!this.userIds.equals("")){
+            String[] idArr = this.userIds.split(",");
+            boolean isValid = true;
+            StringBuffer reason = new StringBuffer();
+            reason.append("for userIds, invalid ids are:");
+            for(String id : idArr){
+                try{
+                    UUID.fromString(id);
+                }catch (IllegalArgumentException ex){
+                    isValid = false;
+                    if(!invalidFields.contains("userIds")){
+                        invalidFields.add("userIds");
+                    }
+                    reason.append(id);
+                    reason.append(",");
                 }
-                reason.append(id);
-                reason.append(",");
             }
-        }
-        if(!isValid){
-            reasons.add(reason.toString());
+            if(!isValid){
+                reasons.add(reason.toString());
+            }
         }
         return;
     }
