@@ -2,7 +2,6 @@ package com.happylife.core.service;
 
 import com.happylife.core.dto.user.UserFilter;
 import com.happylife.core.exception.user.UserException;
-import com.happylife.core.exception.uuid.UUIDException;
 import com.happylife.core.mbg.model.User;
 
 import java.util.List;

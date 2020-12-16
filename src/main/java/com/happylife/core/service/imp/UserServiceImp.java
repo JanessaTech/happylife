@@ -59,6 +59,9 @@ public class UserServiceImp implements UserService {
         if(!userFilter.getName().equals("")){
             criteria.andNameEqualTo(userFilter.getName());
         }
+        if(!userFilter.getPassword().equals("")){
+            criteria.andPasswordEqualTo(userFilter.getPassword());
+        }
         if(!userFilter.getSex().equals("")){
             criteria.andSexEqualTo(userFilter.getSex());
         }

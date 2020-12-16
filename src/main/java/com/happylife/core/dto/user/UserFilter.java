@@ -1,7 +1,6 @@
 package com.happylife.core.dto.user;
 
 import com.happylife.core.exception.user.UserFilterParameterException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
 import java.util.ArrayList;
@@ -12,6 +11,7 @@ import java.util.UUID;
 public class UserFilter {
     private String userIds;
     private String name;
+    private String password;
     private String sex;
     private String sortby;
     private String order;
@@ -36,6 +36,14 @@ public class UserFilter {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getSex() {
@@ -94,6 +102,8 @@ public class UserFilter {
         return;
     }
 
+    private void validatePassword(){return;}
+
     private void validateSex(){
         return;
     }
@@ -109,6 +119,7 @@ public class UserFilter {
     public void validate() throws UserFilterParameterException {
         validateUserIds();
         validateName();
+        validatePassword();
         validateSex();
         validateSortby();
         validateOrder();
@@ -122,6 +133,7 @@ public class UserFilter {
         return "UserFilter{" +
                 "userIds='" + userIds + '\'' +
                 ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
                 ", sex='" + sex + '\'' +
                 ", sortby='" + sortby + '\'' +
                 ", order='" + order + '\'' +

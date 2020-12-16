@@ -1,7 +1,8 @@
 package com.happylife.core.controller.redis;
 
 import com.happylife.core.common.Response;
-import com.happylife.core.config.RedisUtils;
+import com.happylife.core.component.RedisUtils;
+import com.happylife.core.exception.RedisUtilException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class RedisTestController {
     private static final Logger logger  = LoggerFactory.getLogger(RedisTestController.class);
 
     @GetMapping(value = "/redis/test/{name}")
-    public ResponseEntity<Object> hello(@PathVariable(value = "name") String name){
+    public ResponseEntity<Object> hello(@PathVariable(value = "name") String name) throws RedisUtilException {
         boolean hasKey = redisUtils.exists(name);
         String res = "";
         if(hasKey){

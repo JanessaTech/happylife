@@ -19,4 +19,10 @@ public class GlobalExceptionHandler {
         Response response = Response.fail(ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = LoginException.class)
+    public ResponseEntity<Object> exceptin(LoginException ex){
+        Response response = Response.fail(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
 }
