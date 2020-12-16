@@ -74,6 +74,13 @@ public class UUIDGenerator {
         return uuids;
     }
 
+    /**
+     * validate if uuidStr is a valid string which can be used to create UUID object
+     * @param uuidStr input string which is used to create UUID object
+     * @param field used in  model.  For User model is {@link com.happylife.core.mbg.model.User}
+     * @param module the name of module. For User model, name is "User"
+     * @throws UUIDException
+     */
     public void validate(String uuidStr, String field, String module) throws UUIDException {
         if(uuidStr == null || uuidStr.trim().equals("")){
             throw new UUIDException(this.messageSource.getMessage("uuid.empty", new Object[]{field, module}, Locale.getDefault()));
