@@ -9,12 +9,12 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class UserFilter {
-    private String userIds;
-    private String name;
-    private String password;
-    private String sex;
-    private String sortby;
-    private String order;
+    private String userIds = "";
+    private String name = "";
+    private String password = "";
+    private String sex = "";
+    private String sortby = "";
+    private String order = "";
 
     private MessageSource messageSource;
 

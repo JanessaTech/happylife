@@ -70,7 +70,7 @@ public class TokenManagerImp implements TokenManager{
     @Override
     public void updateTokenTTL(TokenModel tokenModel) throws TokenException{
         try{
-            redisUtils.reset(tokenModel.getToken(), ttl,TimeUnit.SECONDS);
+            redisUtils.reset(tokenModel.getName(), ttl,TimeUnit.SECONDS);
         }catch (RedisUtilException e){
             throw new TokenException(e.getMessage(), e);
         }

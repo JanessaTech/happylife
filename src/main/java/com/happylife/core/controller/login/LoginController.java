@@ -1,7 +1,7 @@
 package com.happylife.core.controller.login;
 
-import com.happylife.core.annotation.CurrentUser;
 import com.happylife.core.annotation.Authorization;
+import com.happylife.core.annotation.CurrentUser;
 import com.happylife.core.common.Response;
 import com.happylife.core.common.token.TokenManager;
 import com.happylife.core.common.token.TokenModel;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,12 +34,9 @@ public class LoginController {
     private MessageSource messageSource;
 
 
-    @PostMapping
+    @PostMapping(value = "/login")
     public ResponseEntity<Object> login(@RequestParam(value = "name", required = true) String name,
                                         @RequestParam(value = "password", required = true) String password) throws UserException, LoginException {
-        Assert.notNull(name, "name can not be empty");
-        Assert.notNull(password, "password can not be empty");
-
         UserFilter userFilter = new UserFilter(messageSource);
         userFilter.setName(name);
         userFilter.setPassword(password);
@@ -75,17 +71,18 @@ public class LoginController {
         }catch (TokenException ex){
             throw new LoginException(ex.getMessage(), ex);
         }
-        logger.info(this.messageSource.getMessage("logout.success", new Object[]{user.getName()}, Locale.getDefault()));
-        return new ResponseEntity<Object>("logout", HttpStatus.OK);
+        String msg = this.messageSource.getMessage("logout.success", new Object[]{user.getName()}, Locale.getDefault());
+        logger.info(msg);
+        return new ResponseEntity<Object>(msg, HttpStatus.OK);
     }
 
     @GetMapping(value = "/test1")
     @Authorization
-    public ResponseEntity<Object> illegalAccessWithAuthorization() throws LoginException{
-        return new ResponseEntity<Object>("illegal access", HttpStatus.NO_CONTENT);
+    public ResponseEntity<Object> accessWithAuthorization() throws LoginException{
+        return new ResponseEntity<Object>("accessWithAuthorization", HttpStatus.OK);
     }
     @GetMapping(value = "/test2")
-    public ResponseEntity<Object> illegalAccessWithOutAuthorization() throws LoginException{
-        return new ResponseEntity<Object>("legal access", HttpStatus.OK);
+    public ResponseEntity<Object> accessWithOutAuthorization() throws LoginException{
+        return new ResponseEntity<Object>("accessWithOutAuthorization", HttpStatus.OK);
     }
 }
