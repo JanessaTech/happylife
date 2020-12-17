@@ -7,6 +7,7 @@ import com.happylife.core.exception.EntityNotFoundException;
 import com.happylife.core.exception.user.UserException;
 import com.happylife.core.exception.user.UserFilterParameterException;
 import com.happylife.core.exception.uuid.UUIDException;
+import com.happylife.core.mbg.model.Student;
 import com.happylife.core.mbg.model.User;
 import com.happylife.core.service.UserService;
 import org.slf4j.Logger;
@@ -15,11 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import javax.validation.Valid;
+import java.util.*;
 
 
 @RestController
@@ -35,11 +37,54 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * This is a demo to show how to use messageSource
+     * @param name
+     * @return
+     */
     @GetMapping(value = "/test")
     public ResponseEntity<Object> test(@RequestParam(value = "name", required = true) String name){
         logger.info(messageSource.getMessage("subject", new Object[]{"juan"}, Locale.getDefault()));
         return new ResponseEntity<>("hello", HttpStatus.OK);
     }
+
+    /**
+     * This is a demo to show how to use @Valid and
+     * However, the method studentVerify doesn't provide good solution to collect exceptions/errors thrown by @Valid
+     * If we do nothing about collecting exceptions/errors, spring will throw exceptions/errors in backend(you will see it on spring console/log file)
+     * Currently, there are several ways to collect exceptions/errors
+     *   1. Add anther parameter which type is BindingResult in studentVerify, then use AOP or directly return errors within studentVerify.
+     *      For AOP, see details: http://www.macrozheng.com/#/technology/springboot_validator
+     *      For direct return, see details: https://blog.csdn.net/sunnyzyq/article/details/103527380
+     *   2. Use annotation @ExceptionHandler on the controller-specific level or global level.
+     *      See details at handleValidationExceptions method (controller-specific level) or at {@link com.happylife.core.exception.GlobalExceptionHandler}(global level)
+     * @param student
+     * @return
+     */
+    @PostMapping(value = "/student")
+    public ResponseEntity<Object> studentVerify(@Valid @RequestBody Student student){
+        return new ResponseEntity<>("student is valid", HttpStatus.OK);
+    }
+
+    /**
+     * we could handle controller-specific exceptions by using the method below.
+     * For the common exceptions, put the handling logic at here. See {@link com.happylife.core.exception.GlobalExceptionHandler}
+     * @param ex
+     * @return
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
+    }
+
 
     @GetMapping
     public ResponseEntity<Object> getUsersByFilter(@RequestParam(value = "userIds", required = false, defaultValue = "") String userIds,
