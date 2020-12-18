@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <context id="context" targetRuntime="MyBatis3">
+        <!-- we can define our owned commentGenerator here-->
         <commentGenerator>
             <property name="suppressAllComments" value="false"/>
             <property name="suppressDate" value="false"/>

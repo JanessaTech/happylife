@@ -11,6 +11,7 @@ import com.happylife.core.exception.TokenException;
 import com.happylife.core.exception.user.UserException;
 import com.happylife.core.mbg.model.User;
 import com.happylife.core.service.UserService;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Locale;
 
+@Api(tags = {"LoginController"})
 @RestController
 @RequestMapping("/tuoke-web/api/tokens")
 public class LoginController {
@@ -33,10 +35,12 @@ public class LoginController {
     @Autowired
     private MessageSource messageSource;
 
-
+    @ApiOperation("user login")
     @PostMapping(value = "/login")
-    public ResponseEntity<Object> login(@RequestParam(value = "name", required = true) String name,
-                                        @RequestParam(value = "password", required = true) String password) throws UserException, LoginException {
+    public ResponseEntity<Object> login(@RequestParam(value = "name", required = true)
+                                        @ApiParam("username") String name,
+                                        @RequestParam(value = "password", required = true)
+                                        @ApiParam("user's password") String password) throws UserException, LoginException {
         UserFilter userFilter = new UserFilter(messageSource);
         userFilter.setName(name);
         userFilter.setPassword(password);
@@ -61,6 +65,7 @@ public class LoginController {
      * @return
      * @throws LoginException
      */
+    @ApiOperation("user logout")
     @DeleteMapping
     @Authorization
     public ResponseEntity<Object> logout(@CurrentUser User user) throws LoginException{

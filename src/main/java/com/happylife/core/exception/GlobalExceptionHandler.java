@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    // user-defined excpetions
+    // user-defined exceptions
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<Object> exception(EntityNotFoundException ex){
         Response response = Response.fail(ex.getMessage());
@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = LoginException.class)
-    public ResponseEntity<Object> exceptin(LoginException ex){
+    public ResponseEntity<Object> exception(LoginException ex){
         Response response = Response.fail(ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
