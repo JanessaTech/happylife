@@ -23,12 +23,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(value = LoginException.class)
-    public ResponseEntity<Object> exception(LoginException ex){
-        Response response = Response.fail(ex.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-    }
-
     // spring-defined exceptions
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<Object> exception(HttpRequestMethodNotSupportedException ex){

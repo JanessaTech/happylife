@@ -5,6 +5,7 @@ drop table if exists public.saler CASCADE;
 drop table if exists public.shop CASCADE;
 drop table if exists public.shopping_cart CASCADE;
 drop table if exists public."user" CASCADE;
+drop table if exists public."login" CASCADE;
 
 CREATE TABLE "addr" (
 "addr_id" uuid NOT NULL,
@@ -88,13 +89,13 @@ CREATE TABLE "user" (
 "sex" varchar(10) COLLATE "default",
 "addr" varchar(50) COLLATE "default",
 "profile" text COLLATE "default",
+"role" varchar(20) NOT NULL,
 "create_date" timestamptz(0),
 "update_date" timestamptz(0),
 CONSTRAINT "user_pkey" PRIMARY KEY ("user_id")
 )
 WITHOUT OIDS;
 ALTER TABLE "user" OWNER TO "juan";
-
 
 ALTER TABLE "addr" ADD CONSTRAINT "fk_addr_user" FOREIGN KEY ("user_id") REFERENCES "user" ("user_id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "item" ADD CONSTRAINT "fk_item_shop" FOREIGN KEY ("shop_id") REFERENCES "shop" ("shop_id") ON DELETE NO ACTION ON UPDATE NO ACTION;

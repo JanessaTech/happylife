@@ -98,6 +98,7 @@ public class UserFilter {
     private List<String> invalidFields = new ArrayList<String>();
     private List<String> reasons = new ArrayList<String>();
 
+
     private void validateName(){
         return;
     }
@@ -116,6 +117,10 @@ public class UserFilter {
         return;
     }
 
+    /**
+     * to-do: we could move validation into spring boot framework(hibernator validator)
+     * @throws UserFilterParameterException
+     */
     public void validate() throws UserFilterParameterException {
         validateUserIds();
         validateName();
