@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
-public class UserFilter {
+public class UserProfileFilter {
     private String userIds = "";
     private String name = "";
     private String password = "";
@@ -18,7 +18,7 @@ public class UserFilter {
 
     private MessageSource messageSource;
 
-    public UserFilter(MessageSource messageSource){
+    public UserProfileFilter(MessageSource messageSource){
         this.messageSource = messageSource;
     }
 
@@ -135,7 +135,7 @@ public class UserFilter {
 
     @Override
     public String toString() {
-        return "UserFilter{" +
+        return "UserProfileFilter{" +
                 "userIds='" + userIds + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +

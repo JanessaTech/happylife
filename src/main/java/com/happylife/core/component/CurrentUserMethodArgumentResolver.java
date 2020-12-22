@@ -2,7 +2,7 @@ package com.happylife.core.component;
 
 import com.happylife.core.annotation.CurrentUser;
 import com.happylife.core.common.Constants;
-import com.happylife.core.dto.user.UserFilter;
+import com.happylife.core.dto.user.UserProfileFilter;
 import com.happylife.core.mbg.model.User;
 import com.happylife.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +37,9 @@ public class CurrentUserMethodArgumentResolver implements HandlerMethodArgumentR
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
         String userName = (String)nativeWebRequest.getAttribute(Constants.CURRENT_USER_NAME, RequestAttributes.SCOPE_REQUEST);
         if(userName != null){
-            UserFilter userFilter = new UserFilter(messageSource);
-            userFilter.setName(userName);
-            List<User> user = userService.getUsersByFilter(userFilter);
+            UserProfileFilter userProfileFilter = new UserProfileFilter(messageSource);
+            userProfileFilter.setName(userName);
+            List<User> user = userService.getUsersByFilter(userProfileFilter);
             return user.get(0);
         }
         return new MissingServletRequestPartException(Constants.CURRENT_USER_NAME);

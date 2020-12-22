@@ -5,7 +5,7 @@ import com.happylife.core.common.Response;
 import com.happylife.core.common.UUIDGenerator;
 import com.happylife.core.common.token.TokenManager;
 import com.happylife.core.dto.token.Token;
-import com.happylife.core.dto.user.UserFilter;
+import com.happylife.core.dto.user.UserProfileFilter;
 import com.happylife.core.exception.EntityNotFoundException;
 import com.happylife.core.exception.TokenException;
 import com.happylife.core.exception.login.LoginAuth2Exception;
@@ -139,22 +139,22 @@ public class UserProfileController {
                                                           @RequestParam(value = "sortby", required = false, defaultValue = "") String sortby,
                                                           @RequestParam(value = "order", required = false, defaultValue = "") String order,
                                                           @RequestParam(value = "access_token", required = true) String access_token) throws UserFilterParameterException, UserProfileException {
-        UserFilter userFilter = new UserFilter(this.messageSource);
-        userFilter.setUserIds(userIds);
-        userFilter.setName(name);
-        userFilter.setSex(sex);
-        userFilter.setSortby(sortby);
-        userFilter.setOrder(order);
-        userFilter.validate();  // to-do: no need validation
-        logger.info(userFilter.toString());
+        UserProfileFilter userProfileFilter = new UserProfileFilter(this.messageSource);
+        userProfileFilter.setUserIds(userIds);
+        userProfileFilter.setName(name);
+        userProfileFilter.setSex(sex);
+        userProfileFilter.setSortby(sortby);
+        userProfileFilter.setOrder(order);
+        userProfileFilter.validate();  // to-do: no need validation
+        logger.info(userProfileFilter.toString());
         List<User> users = null;
         try{
-            users = userService.getUsersByFilter(userFilter);
+            users = userService.getUsersByFilter(userProfileFilter);
         }catch(UserProfileException ex){
             logger.error(ex.getMessage(), ex);
             throw ex;
         }
-        logger.info(this.messageSource.getMessage("user.filter", new Object[]{userFilter.toString()}, Locale.getDefault()));
+        logger.info(this.messageSource.getMessage("user.filter", new Object[]{userProfileFilter.toString()}, Locale.getDefault()));
         Response response = Response.success(users);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

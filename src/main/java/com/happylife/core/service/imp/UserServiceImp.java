@@ -1,7 +1,7 @@
 package com.happylife.core.service.imp;
 
 import com.happylife.core.common.UUIDGenerator;
-import com.happylife.core.dto.user.UserFilter;
+import com.happylife.core.dto.user.UserProfileFilter;
 import com.happylife.core.exception.user.UserProfileException;
 import com.happylife.core.exception.uuid.UUIDException;
 import com.happylife.core.mbg.mappers.UserMapper;
@@ -43,30 +43,30 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<User> getUsersByFilter(UserFilter userFilter) throws UserProfileException {
+    public List<User> getUsersByFilter(UserProfileFilter userProfileFilter) throws UserProfileException {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
-        if(!userFilter.getUserIds().equals("") ){
+        if(!userProfileFilter.getUserIds().equals("") ){
             List<Object> uuids = null;
             try{
-                 uuids = uuidGenerator.getUUIDs(userFilter.getUserIds());
+                 uuids = uuidGenerator.getUUIDs(userProfileFilter.getUserIds());
             }catch (UUIDException ex){
                 throw new UserProfileException(ex.getMessage(), ex);
             }
 
             criteria.andUserIdIn(uuids);
         }
-        if(!userFilter.getName().equals("")){
-            criteria.andNameEqualTo(userFilter.getName());
+        if(!userProfileFilter.getName().equals("")){
+            criteria.andNameEqualTo(userProfileFilter.getName());
         }
-        if(!userFilter.getPassword().equals("")){
-            criteria.andPasswordEqualTo(userFilter.getPassword());
+        if(!userProfileFilter.getPassword().equals("")){
+            criteria.andPasswordEqualTo(userProfileFilter.getPassword());
         }
-        if(!userFilter.getSex().equals("")){
-            criteria.andSexEqualTo(userFilter.getSex());
+        if(!userProfileFilter.getSex().equals("")){
+            criteria.andSexEqualTo(userProfileFilter.getSex());
         }
-        if(!userFilter.getSortby().equals("") && !userFilter.getOrder().equals("")){
-            userExample.setOrderByClause(userFilter.getSortby() + " " + userFilter.getOrder());
+        if(!userProfileFilter.getSortby().equals("") && !userProfileFilter.getOrder().equals("")){
+            userExample.setOrderByClause(userProfileFilter.getSortby() + " " + userProfileFilter.getOrder());
         }
 
         List<User> users = null;
