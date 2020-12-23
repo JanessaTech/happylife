@@ -1,4 +1,4 @@
-package com.happylife.core.common;
+package com.happylife.core.component;
 
 import com.happylife.core.exception.uuid.UUIDException;
 import org.springframework.beans.factory.annotation.Autowired;

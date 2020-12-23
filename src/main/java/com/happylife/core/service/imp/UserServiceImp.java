@@ -1,6 +1,8 @@
 package com.happylife.core.service.imp;
 
-import com.happylife.core.common.UUIDGenerator;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.happylife.core.component.UUIDGenerator;
 import com.happylife.core.dto.user.UserProfileFilter;
 import com.happylife.core.exception.user.UserProfileException;
 import com.happylife.core.exception.uuid.UUIDException;
@@ -43,7 +45,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<User> getUsersByFilter(UserProfileFilter userProfileFilter) throws UserProfileException {
+    public PageInfo<User> getUsersByFilter(UserProfileFilter userProfileFilter, int page, int pageSize) throws UserProfileException {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         if(!userProfileFilter.getUserIds().equals("") ){
@@ -69,13 +71,16 @@ public class UserServiceImp implements UserService {
             userExample.setOrderByClause(userProfileFilter.getSortby() + " " + userProfileFilter.getOrder());
         }
 
-        List<User> users = null;
+        List<User> userList = null;
+        PageHelper.startPage(page, pageSize);
+        PageInfo<User> pageInfo = null;
         try{
-             users = userMapper.selectByExample(userExample);
+            userList = userMapper.selectByExample(userExample);
+            pageInfo = new PageInfo<User>(userList);
         }catch(Exception ex){
             throw new UserProfileException(ex.getMessage(),ex);
         }
-        return users;
+        return pageInfo;
     }
 
     @Override

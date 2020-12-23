@@ -1,8 +1,9 @@
 package com.happylife.core.controller.userprofile;
 
+import com.github.pagehelper.PageInfo;
 import com.happylife.core.annotation.IdAllowed;
 import com.happylife.core.common.Response;
-import com.happylife.core.common.UUIDGenerator;
+import com.happylife.core.component.UUIDGenerator;
 import com.happylife.core.common.token.TokenManager;
 import com.happylife.core.dto.token.Token;
 import com.happylife.core.dto.user.UserProfileFilter;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.*;
@@ -130,6 +132,11 @@ public class UserProfileController {
         return errors;
     }
 
+    @PostMapping(value = "/logout")
+    public ResponseEntity<Object> logout(@RequestParam(value = "name", required = true) String name){
+        return null;
+    }
+
 
     @ApiOperation("getUsersByFilter")
     @GetMapping
@@ -138,6 +145,8 @@ public class UserProfileController {
                                                           @RequestParam(value = "sex", required = false, defaultValue = "") String sex,
                                                           @RequestParam(value = "sortby", required = false, defaultValue = "") String sortby,
                                                           @RequestParam(value = "order", required = false, defaultValue = "") String order,
+                                                          @RequestParam(value = "page", required = true) @Min(1) int page,
+                                                          @RequestParam(value = "pageSize", required = true) @Min(2) int pageSize,
                                                           @RequestParam(value = "access_token", required = true) String access_token) throws UserFilterParameterException, UserProfileException {
         UserProfileFilter userProfileFilter = new UserProfileFilter(this.messageSource);
         userProfileFilter.setUserIds(userIds);
@@ -147,15 +156,15 @@ public class UserProfileController {
         userProfileFilter.setOrder(order);
         userProfileFilter.validate();  // to-do: no need validation
         logger.info(userProfileFilter.toString());
-        List<User> users = null;
+        PageInfo<User> pageInfo = null;
         try{
-            users = userService.getUsersByFilter(userProfileFilter);
+            pageInfo = userService.getUsersByFilter(userProfileFilter, page, pageSize);
         }catch(UserProfileException ex){
             logger.error(ex.getMessage(), ex);
             throw ex;
         }
         logger.info(this.messageSource.getMessage("user.filter", new Object[]{userProfileFilter.toString()}, Locale.getDefault()));
-        Response response = Response.success(users);
+        Response response = Response.success(pageInfo);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
