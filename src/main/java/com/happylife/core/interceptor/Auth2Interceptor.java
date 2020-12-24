@@ -7,9 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,14 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Locale;
 
 @Component
-public class AuthorizationInterceptor implements HandlerInterceptor {
+public class Auth2Interceptor extends AbstractInterceptor{
     @Autowired
     @Qualifier("auth2TokenManager")
     private TokenManager auth2TokenManager;
-    @Autowired
-    private MessageSource messageSource;
 
-    private final static Logger logger = LoggerFactory.getLogger(AuthorizationInterceptor.class);
+    private final static Logger logger = LoggerFactory.getLogger(Auth2Interceptor.class);
 
     @Override
     public boolean preHandle
@@ -71,13 +67,6 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
 
         /** case1 hits here*/
         return true;
-    }
-
-    private String[] parseAuthorization(String authorization){
-        if(authorization == null || authorization.length() == 0) return null;
-        String[] authorizationParam = authorization.split("-");
-        if(authorizationParam.length !=  2) return null;
-        return authorizationParam;
     }
 
     @Override

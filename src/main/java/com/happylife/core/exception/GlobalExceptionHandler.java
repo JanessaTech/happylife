@@ -22,6 +22,11 @@ public class GlobalExceptionHandler {
         Response response = Response.fail(ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(value = IdempotentException.class)
+    public ResponseEntity<Object> exception(IdempotentException ex) {
+        Response response = Response.fail(ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
     // spring-defined exceptions
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)

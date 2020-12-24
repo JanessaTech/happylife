@@ -1,7 +1,8 @@
 package com.happylife.core.config;
 
 import com.happylife.core.common.Constants;
-import com.happylife.core.interceptor.AuthorizationInterceptor;
+import com.happylife.core.interceptor.Auth2Interceptor;
+import com.happylife.core.interceptor.IdempotentInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -11,8 +12,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurationSupport {
     @Bean
-    public AuthorizationInterceptor loginRequiredInterceptor(){
-        return new AuthorizationInterceptor();
+    public Auth2Interceptor auth2RequiredInterceptor(){
+        return new Auth2Interceptor();
+    }
+
+    @Bean
+    public IdempotentInterceptor idempotentRequiredInterceptor(){
+        return new IdempotentInterceptor();
     }
 
     /*
@@ -29,9 +35,12 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginRequiredInterceptor())
-                .addPathPatterns(Constants.BASE_API_PATH + "/**")
+        registry.addInterceptor(auth2RequiredInterceptor())
+                .addPathPatterns(Constants.BASE_AUTH2_USER_PATH + "/**")
                 .excludePathPatterns(Constants.BASE_AUTH2_USER_PATH + "/login");
+        registry.addInterceptor(idempotentRequiredInterceptor())
+                .addPathPatterns(Constants.BASE_AUTH2_USER_PATH + "/idem");
+
         super.addInterceptors(registry);
     }
 

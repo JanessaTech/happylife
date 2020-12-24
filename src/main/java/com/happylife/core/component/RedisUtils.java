@@ -97,15 +97,17 @@ public class RedisUtils {
      *
      * @param key
      */
-    public void remove(final String key) throws RedisUtilException {
+    public boolean remove(final String key) throws RedisUtilException {
         if (exists(key)) {
             try{
-                redisTemplate.delete(key);
+                boolean removed = redisTemplate.delete(key);
+                return removed;
             }catch (Exception e){
                 throw new RedisUtilException(e.getMessage(), e);
             }
 
         }
+        return false;
     }
 
     /**

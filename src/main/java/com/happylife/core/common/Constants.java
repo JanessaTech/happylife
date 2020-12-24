@@ -1,8 +1,6 @@
 package com.happylife.core.common;
 
 public class Constants {
-    public final static String AUTHORIZATION = "AUTHORIZATION";
-    public final static String CURRENT_USER_NAME = "CURRENT_USER_NAME";
     public final static String BASE_API_PATH = "/tuoke-web/api";
     public final static String BASE_AUTH2_PATH = BASE_API_PATH + "/auth2";
     public final static String BASE_AUTH2_USER_PATH  = BASE_AUTH2_PATH + "/users";
@@ -20,6 +18,9 @@ public class Constants {
     public static final String AUTH2_TOKEN_URL = "http://127.0.0.1:8080/oauth/token";
     public static final String ACCESS_TOKEN_KEY = "access_token";
     // end of auth2
+
+    //idempotent
+    public static final String IDEMPOTENT_REQUEST_HEADER = "idem_token";
 
     public  enum TOKEN_TYPE{
         UUID {@Override public String toString(){return "uuid";}},
