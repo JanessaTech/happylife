@@ -4,16 +4,15 @@ import com.github.pagehelper.PageInfo;
 import com.happylife.core.annotation.AutoIdempotent;
 import com.happylife.core.annotation.IdAllowed;
 import com.happylife.core.common.Response;
-import com.happylife.core.component.UUIDGenerator;
 import com.happylife.core.common.token.TokenManager;
+import com.happylife.core.component.UUIDGenerator;
 import com.happylife.core.dto.token.Token;
 import com.happylife.core.dto.user.UserProfileFilter;
 import com.happylife.core.exception.EntityNotFoundException;
-import com.happylife.core.exception.IdempotentException;
 import com.happylife.core.exception.TokenException;
 import com.happylife.core.exception.login.LoginAuth2Exception;
-import com.happylife.core.exception.user.UserProfileException;
 import com.happylife.core.exception.user.UserFilterParameterException;
+import com.happylife.core.exception.user.UserProfileException;
 import com.happylife.core.exception.uuid.UUIDException;
 import com.happylife.core.mbg.model.Student;
 import com.happylife.core.mbg.model.User;
@@ -144,6 +143,8 @@ public class UserProfileController {
     public ResponseEntity<Object> idemPotentTest(@RequestParam(value = "access_token", required = true) String access_token){
         return new ResponseEntity<>("idemPotent operation success", HttpStatus.OK);
     }
+
+
 
     @ApiOperation("getUsersByFilter")
     @GetMapping
