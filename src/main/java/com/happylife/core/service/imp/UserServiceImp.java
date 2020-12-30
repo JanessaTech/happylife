@@ -4,7 +4,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.happylife.core.component.UUIDGenerator;
 import com.happylife.core.dto.user.UserProfileFilter;
-import com.happylife.core.exception.MyOwnTransactionException;
 import com.happylife.core.exception.user.UserProfileException;
 import com.happylife.core.exception.uuid.UUIDException;
 import com.happylife.core.mbg.mappers.UserMapper;
@@ -16,8 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
