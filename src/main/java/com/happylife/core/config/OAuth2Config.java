@@ -38,7 +38,7 @@ public class OAuth2Config {
             http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/tuoke-web/api/auth2/users/login","/swagger-ui.html", "/tuoke-web/api/idem").permitAll()
+                    .antMatchers("/tuoke-web/api/auth2/users/login","/swagger-ui.html", "/tuoke-web/api/idem", "/tuoke-web/api/examples/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/tuoke-web/api/auth2/users").hasAnyAuthority(Constants.ROLE_ADMIN)
                     .antMatchers(HttpMethod.DELETE, "/tuoke-web/api/auth2/user2/**").hasAnyAuthority(Constants.ROLE_ADMIN)
                     .antMatchers(HttpMethod.PUT, "/tuoke-web/api/auth2/user2").hasAnyAuthority(Constants.ROLE_ADMIN)
