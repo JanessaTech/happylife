@@ -6,7 +6,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.SimpleApplicationEventMulticaster;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jca.context.SpringContextResourceAdapter;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +17,7 @@ import static org.springframework.context.support.AbstractApplicationContext.APP
  * A demo shows how to use user-defined application listener
  * There is one problem remaining: how spring figures out which listeners it should choose to send event?
  * if the mismatched listener is chosen, ClassCastException will throw.
- * see {@link SimpleApplicationEventMulticaster#multicastEvent} on how spring figure matched listener
+ * see {@link SimpleApplicationEventMulticaster#multicastEvent} on how spring figure matched listeners
  */
 @RestController
 @RequestMapping("/tuoke-web/api/examples/listener")
@@ -36,7 +35,7 @@ public class MyApplicationListenerService {
          * I am using two ways to publish event, both are OK:
          * one using simpleApplicationEventMulticaster, one using applicationContext
          * I know when simpleApplicationEventMulticaster is registered into spring context。 see {@link AbstractApplicationContext #initApplicationEventMulticaster}
-         * but I didn't find when applicationContext is registered so far .. annoying
+         * but I don't know when applicationContext is registered so far .. annoying
          */
         applicationContext.publishEvent(new MyUserDefinedEvent(this, name));
         //simpleApplicationEventMulticaster.multicastEvent(new MyUserDefinedEvent(this, name));
